@@ -39,23 +39,29 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.NavHost
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
 import com.example.oliveiraapp.R
-import com.example.oliveiraapp.ui.camera.AnalyzeScreen
+import com.example.oliveiraapp.navigate.OliveiraNavHost
+import com.example.oliveiraapp.navigate.navigateToCamera
 import com.example.oliveiraapp.ui.theme.BlueOliveira
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
+    navController: NavHostController
 
 ) {
     val context = LocalContext.current
     val viewModel = hiltViewModel<HomeViewModel>()
     val state by viewModel.uiState.collectAsState()
 
+
+
     val showSheetPeekHeight = if (state.showPreview) 40.dp else 0.dp
-    val coroutine = rememberCoroutineScope()
 
     BottomSheetScaffold(
         topBar = {
@@ -77,11 +83,11 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(paddingValues)
         ) {
+
+
             FloatingActionButton(
                 onClick = {
-                    coroutine.launch {
-                        openCamera
-                    }
+                    navController.navigateToCamera()
                     viewModel.setShowPreview(!state.showPreview)
                 },
                 modifier = Modifier
@@ -171,10 +177,8 @@ private fun TopAppBarOliveiraTask(
 @Preview
 @Composable
 private fun HomeScreenPrev() {
-    HomeScreen()
+    val context = LocalContext.current
+    HomeScreen(NavHostController(context))
 }
 
 
-val openCamera = @Composable {
-    AnalyzeScreen()
-}
