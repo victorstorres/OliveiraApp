@@ -1,9 +1,9 @@
 package com.example.oliveiraapp.ui.camera
 
-import androidx.camera.core.impl.CameraRepository
-import androidx.camera.view.CameraController
+import androidx.camera.core.CameraSelector
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -13,34 +13,34 @@ import androidx.compose.ui.viewinterop.AndroidView
 
 
 @Composable
-fun CameraScreen(modifier: Modifier = Modifier) {
+fun CameraScreen() {
     val context = LocalContext.current.applicationContext
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val cameraController = remember {
         LifecycleCameraController(context).apply {
-            setEnabledUseCases(CameraController.IMAGE_ANALYSIS)
-
+            bindToLifecycle(lifecycleOwner)
+            cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         }
     }
-
     CameraPreview(cameraController = cameraController)
-
-
 
 }
 
 @Composable
-fun CameraPreview(modifier: Modifier = Modifier, cameraController: LifecycleCameraController) {
-
-    val lifeCycleOwner = LocalLifecycleOwner.current
+fun CameraPreview(
+    modifier: Modifier = Modifier,
+    cameraController: LifecycleCameraController,
+) {
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     AndroidView(
-        modifier = modifier,
         factory = { context ->
             PreviewView(context).apply {
                 this.controller = cameraController
-                cameraController.bindToLifecycle(lifeCycleOwner)
+                cameraController.bindToLifecycle(lifecycleOwner)
             }
-        })
-
+        },
+        modifier = modifier.fillMaxSize()
+    )
 }

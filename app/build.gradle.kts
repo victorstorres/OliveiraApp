@@ -70,6 +70,11 @@ dependencies {
     implementation (libs.androidx.camera.view)
     implementation (libs.androidx.camera.extensions)
 
+    //Navigations
+    implementation(libs.androidx.navigation.fragment.ktx)
+    implementation(libs.androidx.navigation.ui.ktx)
+
+
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
