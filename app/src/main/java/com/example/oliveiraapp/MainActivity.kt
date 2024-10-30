@@ -11,6 +11,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import com.example.oliveiraapp.navigate.OliveiraNavHost
 import com.example.oliveiraapp.ui.home.HomeScreen
 import com.example.oliveiraapp.ui.theme.OliveiraAppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -23,7 +26,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             OliveiraAppTheme {
-                HomeScreen()
+                val navCotroller = rememberNavController()
+                OliveiraNavHost(navControler = navCotroller)
             }
         }
     }
