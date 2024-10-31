@@ -3,6 +3,7 @@ package com.example.oliveiraapp.ui.camera
 import androidx.camera.core.CameraSelector
 import androidx.camera.view.LifecycleCameraController
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
@@ -10,10 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.viewinterop.AndroidView
+import com.example.oliveiraapp.ui.home.TopAppBarOliveiraTask
 
 
 @Composable
-fun CameraScreen() {
+fun CameraScreen(
+    onBack: () -> Unit = {}
+) {
+
     val context = LocalContext.current.applicationContext
     val lifecycleOwner = LocalLifecycleOwner.current
 
@@ -23,7 +28,10 @@ fun CameraScreen() {
             cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
         }
     }
-    CameraPreview(cameraController = cameraController)
+    Column {
+        TopAppBarOliveiraTask(modifier = Modifier, name = "Scaneando", showBackArrow = true, onClickBack = { onBack() })
+        CameraPreview(cameraController = cameraController)
+    }
 
 }
 

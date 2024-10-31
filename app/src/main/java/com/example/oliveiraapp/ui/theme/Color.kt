@@ -11,3 +11,5 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 val BlueOliveira = Color(0xFF6B95C0)
+val ComponentsGreen = Color(0XFF2DB6A3)
+val PriceGreen = Color(0XFF22C7A9)

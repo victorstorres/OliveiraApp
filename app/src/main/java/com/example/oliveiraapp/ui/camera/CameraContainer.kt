@@ -22,7 +22,9 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @Composable
-fun AnalyzeScreen() {
+fun AnalyzeScreen(
+    onBack: () -> Unit = {}
+) {
     Box(
         modifier = Modifier
             .background(Color.Black)
@@ -38,7 +40,7 @@ fun AnalyzeScreen() {
                 modifier = Modifier.fillMaxSize(),
                 contentAlignment = Alignment.TopCenter
             ) {
-                CameraScreen()
+                CameraScreen(onBack = onBack)
             }
         }
 
