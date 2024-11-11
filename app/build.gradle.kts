@@ -58,9 +58,8 @@ android {
 
 dependencies {
     //FireBase
-    implementation ("com.google.firebase:firebase-firestore:25.1.1") // Adiciona a dependência do Firestore
-    implementation (platform("com.google.firebase:firebase-bom:33.5.1")) // Adiciona o Bill of Materials (BOM) do Firebase
-    implementation("com.google.firebase:firebase-storage")
+    implementation ("com.google.firebase:firebase-firestore:25.1.1")
+    implementation (platform("com.google.firebase:firebase-bom:33.5.1")) 
 
 
     //Hilt

@@ -1,8 +1,8 @@
 package com.example.oliveiraapp.data
 
-import androidx.annotation.DrawableRes
 
 data class Product(
+    var id: String? = null,
     val name: String = "",
     val description: String = "",
     val image: String = "",

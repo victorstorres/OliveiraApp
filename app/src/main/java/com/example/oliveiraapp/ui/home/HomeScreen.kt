@@ -1,5 +1,6 @@
 package com.example.oliveiraapp.ui.home
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -225,9 +226,8 @@ fun HomeScreen(
                     state = state,
                     modifier = Modifier
                         .padding(horizontal = 10.dp, vertical = 8.dp),
-                    onClickProduct = {
-                        navController.navigateToProductDetails(Product(state.nameProduct))
-
+                    onClickProduct = { id ->
+                        navController.navigateToProductDetails(id)
                     }
                 )
 

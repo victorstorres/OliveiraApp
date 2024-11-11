@@ -1,5 +1,6 @@
 package com.example.oliveiraapp.navigate
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -9,15 +10,19 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.dialog
 import com.example.oliveiraapp.data.Product
+import com.example.oliveiraapp.firebase.FireStoreRepository
 import com.example.oliveiraapp.ui.camera.AnalyzeScreen
 import com.example.oliveiraapp.ui.card.Card
 import com.example.oliveiraapp.ui.details.ProductDetail
+import com.example.oliveiraapp.ui.details.ProductDetailsViewModel
 import com.example.oliveiraapp.ui.home.HomeScreen
 import com.example.oliveiraapp.ui.menu.MenuScreen
 import com.example.oliveiraapp.ui.registerproducts.DialogFormProductScreen
 import com.example.oliveiraapp.ui.registerproducts.DialogFormProductViewModel
 
 
+
+private const val ID = "id"
 private const val HOME_ROUTE = "Home"
 private const val CAMERA_ROUTE = "CAMERA"
 private const val PRODUCT_DETAILS_ROUTE = "ProductDetails"
@@ -37,10 +42,18 @@ fun OliveiraNavHost(
         composable(CAMERA_ROUTE) {
             AnalyzeScreen(onBack = { navControler.popBackStack() })
         }
-        composable(PRODUCT_DETAILS_ROUTE) {
+        composable("$PRODUCT_DETAILS_ROUTE/{$ID}") { backStackEntry ->
+            val productId = backStackEntry.arguments?.getString(ID)
+            val viewModel = hiltViewModel<ProductDetailsViewModel>()
+            val state by viewModel.uiState.collectAsState()
+
+            Log.e("Teste", "$productId")
+            productId?.let { id ->
+                viewModel.reloadProduct(id)
+            }
 
             ProductDetail(
-                product = Product(""), onAddToCart = { _, _ -> },
+                state = state, onAddToCart = { _, _ -> },
             )
         }
         composable(CARD_ROUTE) {
@@ -82,8 +95,8 @@ fun NavHostController.navigatoToMenuScreen() {
     navigate(MENU_ROUTE)
 }
 
-fun NavHostController.navigateToProductDetails(product: Product) {
-    navigate(PRODUCT_DETAILS_ROUTE)
+fun NavHostController.navigateToProductDetails(id: String?) {
+    this.navigate("$PRODUCT_DETAILS_ROUTE/$id")
 }
 
 fun NavHostController.navigateToCard() {

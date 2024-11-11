@@ -1,6 +1,7 @@
 package com.example.oliveiraapp.ui.registerproducts
 
 import androidx.lifecycle.ViewModel
+import com.example.oliveiraapp.data.Product
 import com.example.oliveiraapp.firebase.FireStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -12,7 +13,7 @@ import javax.inject.Inject
 @HiltViewModel
 class DialogFormProductViewModel @Inject constructor(
     private val fireStoreRepository: FireStoreRepository
-) : ViewModel(){
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(DialogFormProductUiState())
 
@@ -42,13 +43,15 @@ class DialogFormProductViewModel @Inject constructor(
 
     }
 
-   fun addProduct() {
+    fun addProduct() {
         fireStoreRepository.addProduct(
-            name = _uiState.value.nameProduct,
-            description = "",
-            image = "",
-            price = _uiState.value.priceProduct.toDouble(),
-            quantify = _uiState.value.quantifyProduct.toInt()
+            Product(
+                name = _uiState.value.nameProduct,
+                description = "",
+                image = "",
+                price = _uiState.value.priceProduct.toDouble(),
+                quantify = _uiState.value.quantifyProduct.toInt()
+            )
         )
     }
 }

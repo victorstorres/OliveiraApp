@@ -1,11 +1,13 @@
 package com.example.oliveiraapp.firebase
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.asFlow
 import com.example.oliveiraapp.data.Product
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
 
 
@@ -24,49 +26,55 @@ class FireStoreRepository @Inject constructor(
     }
 
     fun addProduct(
-        name: String,
-        description: String,
-        image: String,
-        price: Double,
-        quantify: Int
+        product: Product
     ) {
-        val mapProduct = mapOf<String, Any>(
-            product.name to name,
-            product.price to price,
-            product.description to description,
-            product.image to image,
-            product.quantify to quantify
+        val produtoDocumento = ProductDocuments(
+            name = product.name,
+            description = product.description,
+            image = product.image,
+            price = product.price,
+            quantify = product.quantify
         )
-        fireStore.collection(COLLECTION_NAME).add(mapProduct).addOnSuccessListener { }
 
+        val document = fireStore.collection(COLLECTION_NAME)
+            .document()
+
+        document.set(produtoDocumento)
     }
 
-    fun searchProduct(): Flow<List<Product>> {
-        val liveData = MutableLiveData<List<Product>>()
+    fun searchProduct(): Flow<List<Product>> = MutableStateFlow<List<Product>>(emptyList()).apply {
         fireStore.collection(COLLECTION_NAME)
             .addSnapshotListener { s, _ ->
                 s?.let { snapshot ->
-                    val product = mutableListOf<Product>()
-                    for (document in snapshot.documents) {
-                        val documentProduct = document.toObject<ProductDocuments>()
-                        documentProduct?.let { ProductNotNull ->
-                            product.add(ProductNotNull.forProduct())
+                    val produtos: List<Product> = snapshot.documents
+                        .mapNotNull { documento ->
+                            documento.toObject<ProductDocuments>()?.forProduct(documento.id)
                         }
-                    }
-                    liveData.value = product
+                    value = produtos
                 }
             }
-        return liveData.asFlow()
     }
 
-    private class ProductDocuments(
+    fun searchProductForId(id: String) : Flow<Product> = MutableStateFlow(Product()).apply {
+        fireStore.collection(COLLECTION_NAME).document(id)
+            .addSnapshotListener { s, _ ->
+                s?.let { document ->
+                    document.toObject<ProductDocuments>()?.forProduct(document.id)?.let { product ->
+                        value = product
+                    }
+                }
+            }
+    }
+
+    class ProductDocuments(
         val name: String = "",
         val description: String = "",
         val image: String = "",
         val price: Double = 0.0,
         val quantify: Int = 0,
     ) {
-        fun forProduct() = Product(
+        fun forProduct(id: String?) = Product(
+            id = id,
             name = name,
             description = description,
             image = image,
