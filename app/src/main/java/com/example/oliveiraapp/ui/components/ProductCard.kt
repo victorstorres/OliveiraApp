@@ -2,6 +2,7 @@ package com.example.oliveiraapp.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -12,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Text
@@ -28,62 +30,62 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.min
 import com.example.oliveiraapp.R
+import com.example.oliveiraapp.data.Product
+import com.example.oliveiraapp.ui.home.HomeUiState
 import com.example.oliveiraapp.ui.theme.PriceGreen
 
 @Composable
-fun ProductCard(modifier: Modifier = Modifier) {
-
+fun ProductCard(
+    state: HomeUiState = HomeUiState(),
+    onClickProduct: () -> Unit = {},
+    modifier: Modifier = Modifier
+) {
 
     LazyColumn(modifier = modifier) {
-        items(10) {
-            ElevatedCard(
-                shape = RectangleShape,
-                elevation = androidx.compose.material3.CardDefaults.cardElevation(
-                    defaultElevation = 6.dp
-                ),
+        items(state.listProducts) { product ->
+            Card(
                 modifier = Modifier
-                    .fillMaxWidth(1f)
-                    .fillMaxHeight(0.17f)
-            ) {
-                Card(
-                    modifier = Modifier.fillMaxSize().padding(vertical = 5.dp),
-                    shape = RectangleShape,
+                    .fillMaxSize()
+                    .clickable {(onClickProduct())}
+                    .padding(vertical = 5.dp),
 
+                ) {
+                Text(
+                    text = product.quantify.toString(),
+                    style = TextStyle(fontWeight = FontWeight.Bold),
+                    modifier = Modifier
+                        .align(Alignment.End)
+                        .padding(start = 5.dp, end = 5.dp)
+                )
+                Row(
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    modifier =
+                    Modifier
+                        .fillMaxSize()
+                        .padding(5.dp)
+                ) {
+
+                    Column(
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
                     ) {
-                    Row(
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        modifier =
-                        Modifier
-                            .fillMaxSize()
-                            .border(3.dp, Color.Black)
-                            .padding(5.dp)
-                    ) {
+                        Spacer(modifier = Modifier.size(10.dp))
+                        val fontWeight: FontWeight = FontWeight.SemiBold
 
-                        Column(
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Spacer(modifier = Modifier.size(10.dp))
-                            val fontWeight: FontWeight = FontWeight.SemiBold
-
-                            Text("Nome: Produto", style = TextStyle(fontWeight = fontWeight))
-                            Text(
-                                "Preço: Produto",
-                                style = TextStyle(
-                                    color = PriceGreen,
-                                    fontWeight = FontWeight.SemiBold
-                                ),
-                            )
-                            Text(
-                                "Quantidade: Produto",
-                                style = TextStyle(fontWeight = FontWeight.Light)
-                            )
-                        }
-                        Image(
-                            painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                            contentDescription = "ImageProduct"
+                        Text(product.name, style = TextStyle(fontWeight = fontWeight))
+                        Text(
+                            text = "R$ ${product.price.toString()}",
+                            style = TextStyle(
+                                color = PriceGreen,
+                                fontWeight = FontWeight.SemiBold
+                            ),
                         )
-
                     }
+                    Image(
+                        modifier = Modifier.fillMaxHeight(0.5f),
+                        painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                        contentDescription = "ImageProduct"
+                    )
+
                 }
             }
         }
@@ -96,11 +98,23 @@ fun ProductCard(modifier: Modifier = Modifier) {
 @Composable
 private fun CardStorePrev() {
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(10.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ProductCard()
+        ProductCard(
+            state = HomeUiState(
+                listProducts = listOf(
+                    Product(
+                        "Nome",
+                        price = 10.2,
+                        quantify = 10
+                    )
+                )
+            )
+        )
 
     }
 }

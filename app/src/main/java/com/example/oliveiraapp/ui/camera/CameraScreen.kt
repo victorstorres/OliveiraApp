@@ -29,7 +29,7 @@ fun CameraScreen(
         }
     }
     Column {
-        TopAppBarOliveiraTask(modifier = Modifier, name = "Scaneando", showBackArrow = true, onClickBack = { onBack() })
+        TopAppBarOliveiraTask(modifier = Modifier, name = "Scaneando" )
         CameraPreview(cameraController = cameraController)
     }
 

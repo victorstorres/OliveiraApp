@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "233913148532",
+    "project_id": "oliveiraapp-3b5d1",
+    "storage_bucket": "oliveiraapp-3b5d1.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:233913148532:android:c7269dd729fd9a993a9d21",
+        "android_client_info": {
+          "package_name": "com.example.oliveiraapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAO0XukxQxfhh2QPyMwQoUjwgeMyELopSM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

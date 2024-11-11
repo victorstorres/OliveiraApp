@@ -3,6 +3,7 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.android)
     id("kotlin-kapt")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
 }
 
 android {
@@ -56,19 +57,26 @@ android {
 }
 
 dependencies {
+    //FireBase
+    implementation ("com.google.firebase:firebase-firestore:25.1.1") // Adiciona a dependência do Firestore
+    implementation (platform("com.google.firebase:firebase-bom:33.5.1")) // Adiciona o Bill of Materials (BOM) do Firebase
+    implementation("com.google.firebase:firebase-storage")
+
+
     //Hilt
-    implementation (libs.hilt.android)
+    implementation(libs.hilt.android)
+    implementation(libs.play.services.analytics.impl)
     annotationProcessor(libs.hilt.compiler)
     kapt(libs.dagger.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
     //Camera
-    implementation (libs.androidx.camera.core)
-    implementation (libs.androidx.camera.camera2)
-    implementation (libs.androidx.camera.lifecycle)
-    implementation (libs.androidx.camera.video)
-    implementation (libs.androidx.camera.view)
-    implementation (libs.androidx.camera.extensions)
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.video)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
 
     //Navigations
     implementation(libs.androidx.navigation.fragment.ktx)

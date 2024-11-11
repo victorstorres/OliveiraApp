@@ -44,7 +44,7 @@ import com.example.oliveiraapp.ui.theme.PriceGreen
 private fun ProductDetailsPrev() {
      ProductDetail(product = Product(
          name = "Banana",
-         describe = "Frutas",
+         description = "Frutas",
          price = 20.0,
          quantify = 2
      ), onAddToCart = { _, _ -> } )
@@ -54,7 +54,6 @@ private fun ProductDetailsPrev() {
 fun ProductDetail(
     product: Product,
     onAddToCart: (Product, Int) -> Unit,
-    onBack: () -> Unit = {},
     modifier: Modifier = Modifier
 ) {
     var quantity by remember { mutableIntStateOf(1) }

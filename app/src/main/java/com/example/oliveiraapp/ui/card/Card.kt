@@ -15,9 +15,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -30,7 +28,6 @@ import androidx.compose.ui.unit.dp
 import com.example.oliveiraapp.ui.components.ProductCard
 import com.example.oliveiraapp.ui.home.TopAppBarOliveiraTask
 import com.example.oliveiraapp.ui.theme.ComponentsGreen
-import com.example.oliveiraapp.ui.theme.OliveiraAppTheme
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable
@@ -41,15 +38,12 @@ private fun CardPrev() {
 @Composable
 fun Card(
     totalPurchase: Double = 0.0,
-    onBack: () -> Unit = {}
 ) {
 
     Column {
         TopAppBarOliveiraTask(
             name = "Carrinho",
-            showBackArrow = true,
             modifier = Modifier,
-            onClickBack = onBack
         )
         ProductCard(
             modifier = Modifier
